@@ -53,8 +53,12 @@
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "husky": "^9.0.11",
+    "husky": "^8.0.0",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts}": "npm run lint",
+    "*.{js,jsx,ts,html,css}": "npm run format"
   }
 }
