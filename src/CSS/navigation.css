@@ -1,0 +1,27 @@
+.main-navigation {
+  position: relative;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 20px;
+
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  width: 1010px;
+  height: 50px;
+}
+
+.main-navigation_element {
+  position: absolute;
+  left: 42%;
+}
+
+@media screen and (max-width: 500px) {
+  .main-navigation {
+    width: 388px;
+  }
+
+  .main-navigation_element {
+    left: 35%;
+  }
+}

@@ -1,0 +1,27 @@
+body {
+  background-color: #f9f9f9;
+  margin: 0px;
+  padding-left: 0px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.main_content {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0;
+  width: 1010px;
+  background-color: white;
+  padding-bottom: 10px;
+}
+
+@media screen and (max-width: 500px) {
+  .main_content {
+    width: 420px;
+  }
+}

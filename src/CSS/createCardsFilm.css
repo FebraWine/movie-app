@@ -1,0 +1,5 @@
+@media screen and (max-width: 500px) {
+  .ant-flex > .ant-card {
+    width: 388px;
+  }
+}

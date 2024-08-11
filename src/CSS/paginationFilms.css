@@ -1,0 +1,19 @@
+.main-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1010px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 20px;
+}
+
+.ant-pagination-options {
+  display: none !important;
+}
+
+@media screen and (max-width: 500px) {
+  .main-pagination {
+    width: 388px;
+  }
+}
