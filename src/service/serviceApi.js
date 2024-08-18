@@ -12,13 +12,15 @@ const baseUrl = 'https://api.themoviedb.org/3'
 
 export default class ServiseApi {
   async guestSession() {
-    if (localStorage.getGuestSession !== '[object Object]') {
+    if (JSON.parse(localStorage.getItem('getGuestSession'))) {
+      console.log(localStorage.getItem('getGuestSession'))
       return JSON.parse(localStorage.getItem('getGuestSession'))
     }
     const url = `${baseUrl}/authentication/guest_session/new`
     const results = await fetch(url, options)
     const res = await results.json()
     localStorage.setItem('getGuestSession', JSON.stringify(res))
+
     return res
   }
 
