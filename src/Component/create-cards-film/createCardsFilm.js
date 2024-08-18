@@ -1,8 +1,10 @@
 import React from 'react'
-import { Flex, Spin, Alert } from 'antd'
+import { Flex } from 'antd'
 
 import FilmCard from '../film-card/filmCard'
-// import { SwapiServiceConsumer } from '../swapi-service-context/swapi-service-context'
+import SpinLoad from '../spin-load/spinLoad'
+import OnError from '../on-error/onError'
+import NotFilmsResulte from '../not-films-resulte/NotFilmsResulte'
 
 import '../../CSS/createCardsFilm.css'
 
@@ -47,7 +49,7 @@ class FilmCardCreate extends React.PureComponent {
   }
 
   notFilmShow = (films) => {
-    if (films.length < 1) {
+    if (films && films.length < 1) {
       this.setState({
         message: true,
       })
@@ -74,19 +76,22 @@ class FilmCardCreate extends React.PureComponent {
   render() {
     const { addRate, moviesList } = this.props
     const { film, message } = this.state
-    const elements = film.map((item) => {
-      return (
-        // <SwapiServiceConsumer>
-        //   {(moviesList) => {
-        //     return (
-        <ul key={item.id}>
-          <FilmCard moviesList={moviesList} data={item} addRate={addRate} />
-        </ul>
-      )
-      //     }}
-      //   </SwapiServiceConsumer>
-      // )
-    })
+    let elements
+    if (film) {
+      elements = film.map((item) => {
+        return (
+          // <SwapiServiceConsumer>
+          //   {(moviesList) => {
+          //     return (
+          <ul key={item.id}>
+            <FilmCard moviesList={moviesList} data={item} addRate={addRate} />
+          </ul>
+        )
+        //     }}
+        //   </SwapiServiceConsumer>
+        // )
+      })
+    }
     const notFilms = message ? <NotFilmsResulte /> : null
     const error = this.state.onError ? <OnError /> : null
     const spin = this.state.filmLoading ? elements : <SpinLoad />
@@ -102,38 +107,3 @@ class FilmCardCreate extends React.PureComponent {
 }
 
 export default FilmCardCreate
-
-function SpinLoad() {
-  const content = null
-  return (
-    <div style={{ width: 1000, height: 500 }}>
-      <Spin tip="Loading" size="large" style={{ top: 100 }}>
-        {content}
-      </Spin>
-    </div>
-  )
-}
-
-function OnError() {
-  return (
-    <Alert
-      style={{ margin: 'auto' }}
-      message="Предупреждение!"
-      description="Только фильмы с вашей оценкой есть в этом списке."
-      type="error"
-      showIcon
-    />
-  )
-}
-
-function NotFilmsResulte() {
-  return (
-    <Alert
-      style={{ margin: 'auto' }}
-      message="Предупреждение!"
-      description="Нормально клацай по клаве. (Нет фильмов с таким названием)"
-      type="error"
-      showIcon
-    />
-  )
-}

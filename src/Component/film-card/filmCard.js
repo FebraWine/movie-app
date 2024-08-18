@@ -1,12 +1,12 @@
-/* eslint-disable object-shorthand */
 import { Card, Flex, Typography, Rate } from 'antd'
 import React from 'react'
 import { format } from 'date-fns'
 
 import '../../CSS/filmCard.css'
 
+const posterPlug = require('../../img/poster.png')
+
 class FilmCard extends React.PureComponent {
-  // eslint-disable-next-line react/state-in-constructor
   state = {
     text: null,
     name: null,
@@ -59,8 +59,7 @@ class FilmCard extends React.PureComponent {
     const noneText = 'Описание отсуствует'
     const noneElementsList = 'Жанров нет'
 
-    // eslint-disable-next-line prefer-template, no-useless-concat
-    const newName = name + '...'
+    const newName = `${name}...`
 
     const newData = this.movieReleseDate()
 
@@ -87,7 +86,6 @@ class FilmCard extends React.PureComponent {
         {noneElementsList}
       </Typography.Text>
     )
-
     return (
       <Card
         hoverable
@@ -99,7 +97,10 @@ class FilmCard extends React.PureComponent {
         }}
       >
         <Flex>
-          <img alt="Нет постера, денег не хватило" src={`https://image.tmdb.org/t/p/original/${poster}`} />
+          <img
+            alt="Нет постера, денег не хватило"
+            src={poster ? `https://image.tmdb.org/t/p/original/${poster}` : posterPlug}
+          />
           <Flex
             vertical
             align="flex-start"

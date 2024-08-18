@@ -14,12 +14,10 @@ const items = [
   },
 ]
 class Navigation extends React.PureComponent {
-  // eslint-disable-next-line react/state-in-constructor
   state = {
     key: 'searchFilm',
   }
 
-  // eslint-disable-next-line react/no-unused-class-component-methods
   onClick = (e) => {
     this.props.rateFilms(e.key)
     this.setState({

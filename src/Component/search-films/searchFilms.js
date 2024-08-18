@@ -3,7 +3,6 @@ import { Input } from 'antd'
 import { debounce } from 'lodash'
 
 import ServiseApi from '../../service/serviceApi'
-// import { SwapiServiceConsumer } from '../swapi-service-context/swapi-service-context'
 import '../../CSS/searchFilms.css'
 
 class SearchFilm extends React.PureComponent {
@@ -21,9 +20,15 @@ class SearchFilm extends React.PureComponent {
         .filmsInfo(value)
         .then((res) => {
           this.props.onTotalPages(res.total_results)
-          return res.results.map(this.serviseApi.filmComponent)
+          return res.results.map(this.props.filmComponent)
         })
-        .then((res) => this.props.onRequest(res))
+        .then((res) => {
+          this.props.onRequest(res)
+        })
+        .catch((err) => {
+          console.log(err)
+          this.props.onErrorFilmsStatus(err)
+        })
     }
   }
 
@@ -37,18 +42,3 @@ class SearchFilm extends React.PureComponent {
 }
 
 export default SearchFilm
-
-// requestFilms = (value) => {
-//   return (
-//     <SwapiServiceConsumer>
-//       {({ filmsInfo }) => {
-//         filmsInfo(value)
-//           .then((res) => {
-//             this.props.onTotalPages(res.total_results)
-//             return res.results.map(this.props.filmComponent)
-//           })
-//           .then((res) => this.props.onRequest(res))
-//       }}
-//     </SwapiServiceConsumer>
-//   )
-// }
