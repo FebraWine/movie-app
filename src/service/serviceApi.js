@@ -13,7 +13,6 @@ const baseUrl = 'https://api.themoviedb.org/3'
 export default class ServiseApi {
   async guestSession() {
     if (JSON.parse(localStorage.getItem('getGuestSession'))) {
-      console.log(localStorage.getItem('getGuestSession'))
       return JSON.parse(localStorage.getItem('getGuestSession'))
     }
     const url = `${baseUrl}/authentication/guest_session/new`
@@ -29,8 +28,20 @@ export default class ServiseApi {
 
     if (value) {
       data = await fetch(`${baseUrl}/search/movie?query=${value}&page=${page}`, options)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(JSON.stringify(res.status))
+          }
+          return res.json()
+        })
+        .catch((err) => {
+          return err
+        })
+        .then((res) => {
+          return res
+        })
 
-      const res = await data.json()
+      const res = await data
 
       return res
     }
@@ -41,19 +52,12 @@ export default class ServiseApi {
   async addPostRating(value, id, movieId) {
     return this.addRating(value, id, movieId)
       .then((res) => {
-        if (res.message === '404') {
-          return new Error('not deleted')
+        if (res === 404) {
+          throw new Error('not deleted')
         }
-        const takeStatus = JSON.parse(res.message)
-        if (takeStatus.status_message !== 'Success.') {
-          throw new Error(takeStatus.status_message)
-        }
-
-        return null
       })
-      .catch((res) => res)
-      .then((res) => {
-        return res
+      .catch((res) => {
+        throw new Error(res)
       })
   }
 
@@ -83,8 +87,8 @@ export default class ServiseApi {
       }
 
       const res = await this.getResource(url, options3, false)
-      if (!res.ok) {
-        return new Error(JSON.stringify(res))
+      if (!res.success) {
+        throw new Error(JSON.stringify(res))
       }
       return res
     }
@@ -101,43 +105,38 @@ export default class ServiseApi {
     })
 
     if (!data.ok) {
-      return new Error(JSON.stringify(data.status))
+      return data.status
     }
     return data
-  }
-
-  async totalPages(value, page) {
-    if (page) {
-      return page
-    }
-    const data = await fetch(`${baseUrl}/search/movie?query=${value}&page=1`, options)
-
-    const res = await data.json()
-    return res.total_results
   }
 
   async rateFilmsShow(movieId, page = 1) {
     const url = `${baseUrl}/guest_session/${movieId}/rated/movies?language=en-US&page=${page}&sort_by=created_at.asc`
 
     return fetch(url, options)
-      .then((res) => res.json())
       .then((res) => {
-        return res
+        if (!res.ok) {
+          throw new Error(JSON.stringify(res.status))
+        }
+        return res.json()
       })
-      .catch((err) => console.error(err))
-  }
-
-  async rateFilmsPage(movieId) {
-    const url = `${baseUrl}/guest_session/${movieId}/rated/movies?language=en-US&page=1&sort_by=created_at.asc`
-    return fetch(url, options)
-      .then((res) => res.json())
-      .then((json) => json.total_results)
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        throw new Error(JSON.stringify(err))
+      })
   }
 
   async movieList() {
     const url = `${baseUrl}/genre/movie/list`
 
-    return fetch(url, options).then((res) => res.json())
+    return fetch(url, options)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(JSON.stringify(res.status))
+        }
+        return res.json()
+      })
+      .catch((err) => {
+        throw new Error(JSON.stringify(err))
+      })
   }
 }

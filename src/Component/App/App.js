@@ -52,19 +52,11 @@ export default class App extends React.PureComponent {
   }
 
   addRate = (value, id) => {
-    this.serviseApi.addPostRating(value, id, this.state.guestSessionId).then((res) => {
-      if (
-        (res && res.message === 'The resource you requested could not be found.') ||
-        (res && res.message === 'not deleted')
-      ) {
-        this.setState({
-          error: true,
-        })
-      } else {
-        this.setState({
-          error: false,
-        })
-      }
+    this.serviseApi.addPostRating(value, id, this.state.guestSessionId).catch((err) => {
+      console.log(err)
+      this.setState({
+        error: true,
+      })
     })
   }
 
@@ -94,11 +86,18 @@ export default class App extends React.PureComponent {
   }
 
   getMovieList = () => {
-    this.serviseApi.movieList().then((res) => {
-      this.setState({
-        moviesList: res,
+    this.serviseApi
+      .movieList()
+      .then((res) => {
+        this.setState({
+          moviesList: res,
+        })
       })
-    })
+      .catch(() => {
+        this.setState({
+          error: true,
+        })
+      })
   }
 
   changePage = (page) => {

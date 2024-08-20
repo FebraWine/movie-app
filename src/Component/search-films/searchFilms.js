@@ -26,7 +26,6 @@ class SearchFilm extends React.PureComponent {
           this.props.onRequest(res)
         })
         .catch((err) => {
-          console.log(err)
           this.props.onErrorFilmsStatus(err)
         })
     }
